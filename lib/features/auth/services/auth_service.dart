@@ -26,7 +26,7 @@ class AuthService {
         address: "",
         type: "",
         token: "",
-        //cart: ""
+        cart: [],
       );
       http.Response res = await http.post(Uri.parse("$baseUrl/api/signup"),
           body: user.toJson(),
@@ -104,7 +104,6 @@ class AuthService {
             'x-auth-token': token
           },
         );
-
         var userProvider = Provider.of<UserProvider>(context, listen: false);
         userProvider.setUser(userRes.body);
       }

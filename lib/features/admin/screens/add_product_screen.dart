@@ -21,7 +21,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController quantityController = TextEditingController();
-  final AdminServices _adminServices = AdminServices();
+  final AdminServices adminServices = AdminServices();
 
   String category = 'Mobiles';
   List<File> images = [];
@@ -46,7 +46,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   void sellProduct() {
     if (_addProductFormKey.currentState!.validate() && images.isNotEmpty) {
-      _adminServices.sellProduct(
+      adminServices.sellProduct(
         context: context,
         name: productNameController.text,
         description: descriptionController.text,

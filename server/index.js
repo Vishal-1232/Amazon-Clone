@@ -6,6 +6,8 @@ const mongoose = require('mongoose');
 // import from other files
 const authRouter = require('./routes/auth');
 const adminRouter = require('./routes/admin');
+const productRouter = require('./routes/product');
+const userRouter = require('./routes/user');
 
 
 // initialization
@@ -17,6 +19,8 @@ const DB = "mongodb+srv://Vishal:VishalDB@cluster0.esv5nyf.mongodb.net/?retryWri
 app.use(express.json()); // It parses the incoming payload request into JSON Format
 app.use(authRouter);
 app.use(adminRouter);
+app.use(productRouter);
+app.use(userRouter);
 
 // connections
 mongoose.connect(DB).then(()=>{

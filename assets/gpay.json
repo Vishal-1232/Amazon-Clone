@@ -26,12 +26,12 @@
         }
       ],
       "merchantInfo": {
-        "merchantId": "01234567890123456789",
-        "merchantName": "Example Merchant Name"
+        "merchantId": "BCR2DN4TSXS67H3T",
+        "merchantName": "Vishal's Amazon"
       },
       "transactionInfo": {
         "countryCode": "US",
-        "currencyCode": "USD"
+        "currencyCode": "INR"
       }
     }
   }

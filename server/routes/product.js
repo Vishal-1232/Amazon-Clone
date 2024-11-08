@@ -10,15 +10,46 @@ const {Product} = require("../models/product");
 
 // /api/products:category=Essentials -----> req.params.category
 
-productRouter.get("/api/products",auth,async (req,res)=>{
+// api to get product by category 
+
+productRouter.get("/api/v1/products",auth,async (req,res)=>{
     try{
-        console.log(req.query.category) ;
-        const products = await Product.find({category:req.query.category});
+        const {category,brand,sort,select} = req.query;
+        const queryObject = {};
+        
+        if(category){
+            const categories = category.split(",");
+            queryObject.category = { $in: categories };
+        }
+        if(brand){
+            queryObject.brand = brand;
+        }
+        let apiData = Product.find(queryObject);
+        if(sort){
+            let sortFix = sort.replaceAll(","," ");
+            apiData = apiData.sort(sortFix);
+        }
+        if(select){
+            let selectFix = select.replaceAll(","," ");
+            console.log(selectFix);
+            apiData = apiData.select(selectFix); 
+        }
+
+        // applying pagination
+        let page = Number(req.query.page) || 1;
+        let limit = Number(req.query.limit) || 5;
+        let skip = (page-1)*limit;
+        apiData = apiData.skip(skip).limit(limit);
+        //---------------------------------------
+        const products = await apiData;
+        
         res.json(products);
     }catch(e){
+        console.log(e);
+        
         res.status(500).json({error:e.message});
     }
-})
+});
 
 // api to search product
 productRouter.get("/api/products/search/:name",auth,async (req,res)=>{

@@ -45,6 +45,10 @@ const userSchema = mongoose.Schema({
       quantity: {
         type : Number,
         required: true,
+      },
+      isWishlisted:{
+        type: Boolean,
+        default: false,
       }
     }
   ],

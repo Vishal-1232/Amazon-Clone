@@ -34,7 +34,14 @@ class _BottomBarState extends State<BottomBar> {
 
   @override
   Widget build(BuildContext context) {
-    final userCartLen = context.watch<UserProvider>().user.cart.length;
+    final userCart = context.watch<UserProvider>().user.cart;
+    int userCartLen = 0;
+    for(int i = 0; i < userCart.length; i++){
+      var e = userCart[i];
+      if(e['isWishlisted']==false){
+        userCartLen++;
+      }
+    }
 
     return Scaffold(
       body: pages[_page],

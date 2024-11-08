@@ -42,8 +42,7 @@ class _AuthScreenState extends State<AuthScreen> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SafeArea(
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+            child: ListView(
           children: [
             const Text(
               'Welcome',
@@ -91,10 +90,11 @@ class _AuthScreenState extends State<AuthScreen> {
                         const SizedBox(height: 10),
                         CustomButton(
                             text: 'Sign Up',
+                            color: GlobalVariables.secondaryColor,
                             onTap: () {
                               if (_signUpFormKey.currentState!.validate()) {
                                 signUpUser();
-                              } else {}
+                              }
                             })
                       ],
                     )),
@@ -138,10 +138,11 @@ class _AuthScreenState extends State<AuthScreen> {
                         const SizedBox(height: 10),
                         CustomButton(
                             text: 'Sign In',
+                            color: GlobalVariables.secondaryColor,
                             onTap: () {
                               if (_signInFormKey.currentState!.validate()) {
                                 signInUser();
-                              } else {}
+                              }
                             })
                       ],
                     )),

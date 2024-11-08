@@ -27,11 +27,11 @@ class ProductDetailsServices {
           'id': product.id!,
         }),
       );
-
       httpErrorHandle(
         response: res,
         context: context,
         onSuccess: () {
+          showSnackBar(context, "Item added to cart");
           User user =
               userProvider.user.copyWith(cart: jsonDecode(res.body)['cart']);
           userProvider.setUserFromModel(user);
@@ -68,6 +68,63 @@ class ProductDetailsServices {
         onSuccess: () {},
       );
     } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  moveToWishlist({required BuildContext context, required Product product,})async{
+    try{
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+      http.Response res = await http.post(
+        Uri.parse('$baseUrl/api/v1/add-to-wishlist'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': userProvider.user.token,
+        },
+        body: jsonEncode({
+          'id': product.id!,
+        }),
+      );
+
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          showSnackBar(context, "Item moved to wishlist");
+          User user =
+          userProvider.user.copyWith(cart: jsonDecode(res.body)['cart']);
+          userProvider.setUserFromModel(user);
+        },
+      );
+    }catch(e){
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  removeFromWishlist({required BuildContext context, required Product product,})async{
+    try{
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+      http.Response res = await http.delete(
+        Uri.parse('$baseUrl/api/v1/remove-from-wishlist/${product.id}'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': userProvider.user.token,
+        },
+      );
+
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          showSnackBar(context, "Item removed from wishlist");
+          User user =
+          userProvider.user.copyWith(cart: jsonDecode(res.body)['cart']);
+          userProvider.setUserFromModel(user);
+        },
+      );
+    }catch(e){
       showSnackBar(context, e.toString());
     }
   }

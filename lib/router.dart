@@ -1,11 +1,17 @@
 import 'package:amazon_clone/common/widgets/bottom_bar.dart';
 import 'package:amazon_clone/features/address/screens/address_screen.dart';
-import 'package:amazon_clone/features/admin/screens/add_product_screen.dart';
+import 'package:amazon_clone/features/admin/screens/coupons/add_coupon_screen.dart';
+import 'package:amazon_clone/features/admin/screens/coupons/manage_coupons_screen.dart';
+import 'package:amazon_clone/features/admin/screens/products/add_product_screen.dart';
+import 'package:amazon_clone/features/admin/screens/admin_screen.dart';
+import 'package:amazon_clone/features/admin/screens/category/add_category_screen.dart';
+import 'package:amazon_clone/features/admin/screens/category/manage_category_screen.dart';
 import 'package:amazon_clone/features/auth/screens/auth_screen.dart';
 import 'package:amazon_clone/features/home/screens/category_deals_screen.dart';
 import 'package:amazon_clone/features/home/screens/home_screen.dart';
 import 'package:amazon_clone/features/order_details/screens/order_details.dart';
 import 'package:amazon_clone/features/product_details/screens/product_details_screen.dart';
+import 'package:amazon_clone/features/wishlist/screens/wishlist_screen.dart';
 import 'package:amazon_clone/models/order.dart';
 import 'package:amazon_clone/models/product.dart';
 import 'package:amazon_clone/search/screens/search_screen.dart';
@@ -36,11 +42,12 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       );
 
     case CategoryDealsScreen.routeName:
-      var category = routeSettings.arguments as String;
+      final args = routeSettings.arguments as Map<String,String>;
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => CategoryDealsScreen(
-          category: category,
+          categoryName: args['categoryName']!,
+          categoryId: args['categoryId']!,
         ),
       );
     case SearchScreen.routeName:
@@ -74,6 +81,36 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         builder: (_) => OrderDetailScreen(
           order: order,
         ),
+      );
+    case AdminScreen.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const AdminScreen(),
+      );
+    case ManageCategoryScreen.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const ManageCategoryScreen(),
+      );
+    case AddCategoryScreen.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const AddCategoryScreen(),
+      );
+    case ManageCouponsScreen.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const ManageCouponsScreen(),
+      );
+    case AddCouponScreen.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const AddCouponScreen(),
+      );
+    case WishlistScreen.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const WishlistScreen(),
       );
     default:
       return MaterialPageRoute(

@@ -4,6 +4,7 @@ import 'package:amazon_clone/common/widgets/custom_textfield.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/constants/utils.dart';
 import 'package:amazon_clone/features/admin/services/admin_services.dart';
+import 'package:amazon_clone/models/category.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -21,9 +22,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController quantityController = TextEditingController();
+  final TextEditingController brandController = TextEditingController();
   final AdminServices adminServices = AdminServices();
 
-  String category = 'Mobiles';
+  String? category;
   List<File> images = [];
   final _addProductFormKey = GlobalKey<FormState>();
 
@@ -34,26 +36,23 @@ class _AddProductScreenState extends State<AddProductScreen> {
     descriptionController.dispose();
     priceController.dispose();
     quantityController.dispose();
+    brandController.dispose();
   }
-
-  List<String> productCategories = [
-    'Mobiles',
-    'Essentials',
-    'Appliances',
-    'Books',
-    'Fashion'
-  ];
 
   void sellProduct() {
     if (_addProductFormKey.currentState!.validate() && images.isNotEmpty) {
+      if(category==null){
+        showSnackBar(context, "Please select category");
+      }
       adminServices.sellProduct(
         context: context,
-        name: productNameController.text,
-        description: descriptionController.text,
-        price: double.parse(priceController.text),
-        quantity: double.parse(quantityController.text),
-        category: category,
+        name: productNameController.text.trim(),
+        description: descriptionController.text.trim(),
+        price: double.parse(priceController.text.trim()),
+        quantity: double.parse(quantityController.text.trim()),
+        category: category ?? "",
         images: images,
+        brand: brandController.text.trim(),
       );
     }
   }
@@ -88,10 +87,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
         child: Form(
           key: _addProductFormKey,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 images.isNotEmpty
                     ? CarouselSlider(
                         items: images.map(
@@ -148,44 +148,64 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   controller: productNameController,
                   hintText: 'Product Name',
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 30),
+                CustomTextField(controller: brandController, hintText: "Brand"),
+                const SizedBox(height: 30,),
                 CustomTextField(
                   controller: descriptionController,
                   hintText: 'Description',
-                  maxLines: 7,
+                  maxLines: 2,
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 30),
                 CustomTextField(
                   controller: priceController,
                   hintText: 'Price',
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 30),
                 CustomTextField(
                   controller: quantityController,
                   hintText: 'Quantity',
                 ),
-                const SizedBox(height: 10),
-                SizedBox(
-                  width: double.infinity,
-                  child: DropdownButton(
-                    value: category,
-                    icon: const Icon(Icons.keyboard_arrow_down),
-                    items: productCategories.map((String item) {
-                      return DropdownMenuItem(
-                        value: item,
-                        child: Text(item),
-                      );
-                    }).toList(),
-                    onChanged: (String? newVal) {
-                      setState(() {
-                        category = newVal!;
-                      });
-                    },
-                  ),
+                const SizedBox(height: 30),
+                FutureBuilder(
+                  future: adminServices.fetchAllCategories(context: context),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    }
+                    return Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: Colors.grey), // Set the border color
+                        borderRadius: BorderRadius.circular(
+                            8), // Set the border radius if you want rounded corners
+                      ),
+                      child: DropdownButton(
+                        value: category,
+                        underline: const SizedBox(),
+                        hint: const Text(
+                            "Select category"), // Display this text as the default
+                        icon: const Icon(Icons.keyboard_arrow_down),
+                        items: snapshot.data?.map((CategoryModel item) {
+                          return DropdownMenuItem(
+                            value: item.id,
+                            child: Text(item.name),
+                          );
+                        }).toList(),
+                        onChanged: (String? newVal) {
+                          setState(() {
+                            category = newVal!;
+                          });
+                        },
+                      ),
+                    );
+                  },
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 30),
                 CustomButton(
                   text: 'Sell',
+                  color: GlobalVariables.secondaryColor,
                   onTap: sellProduct,
                 ),
               ],

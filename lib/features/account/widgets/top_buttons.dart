@@ -1,5 +1,6 @@
 import 'package:amazon_clone/features/account/services/account_services.dart';
 import 'package:amazon_clone/features/account/widgets/account_buttons.dart';
+import 'package:amazon_clone/features/wishlist/screens/wishlist_screen.dart';
 import 'package:flutter/material.dart';
 
 class TopButtons extends StatelessWidget {
@@ -12,7 +13,7 @@ class TopButtons extends StatelessWidget {
         Row(
           children: [
             AccountButton(
-              text: 'Your Orders',
+              text: 'Your Account',
               onTap: () {},
             ),
             AccountButton(
@@ -30,7 +31,9 @@ class TopButtons extends StatelessWidget {
             ),
             AccountButton(
               text: 'Your Wish List',
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, WishlistScreen.routeName);
+              },
             ),
           ],
         ),

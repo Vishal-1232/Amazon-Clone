@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:amazon_clone/common/widgets/bottom_bar.dart';
 import 'package:amazon_clone/constants/error_handling.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
@@ -75,7 +77,7 @@ class AuthService {
   }
 
   // get user data
-  void getUserData(
+  Future<void> getUserData(
     BuildContext context,
   ) async {
     try {
@@ -107,7 +109,13 @@ class AuthService {
         var userProvider = Provider.of<UserProvider>(context, listen: false);
         userProvider.setUser(userRes.body);
       }
-    } catch (e) {
+    } on SocketException catch (_) {
+      showSnackBar(context, "Server is unreachable. Please check your connection or try again later.");
+    }
+    on TimeoutException catch(e) {
+      showSnackBar(context, "Request timed out. Please check your internet connection and try again.");
+    }
+    catch (e) {
       showSnackBar(context, e.toString());
     }
   }

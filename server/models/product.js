@@ -12,13 +12,18 @@ const productSchema = mongoose.Schema({
     type: String,
     trim: true,
   },
+  brand: {
+    required: true,
+    type: String,
+    trim: true,
+  },
   images: [
     {
-        type: String,
-        required: true,
-    }
+      type: String,
+      required: true,
+    },
   ],
-  quantity:{
+  quantity: {
     type: Number,
     required: true,
   },
@@ -30,8 +35,8 @@ const productSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  ratings:[ratingSchema],
+  ratings: [ratingSchema],
 });
 
-const Product = mongoose.model("Product",productSchema);
-module.exports = {Product,productSchema};
+const Product = mongoose.model("Product", productSchema);
+module.exports = { Product, productSchema };

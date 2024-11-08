@@ -9,10 +9,10 @@ void httpErrorHandle({
   required VoidCallback onSuccess,
 }) {
   switch (response.statusCode) {
-    case 200:
+    case (200 || 201):
       onSuccess();
       break;
-    case 400:
+    case (400 || 404):
       showSnackBar(context, jsonDecode(response.body)['msg']);
       break;
     case 500:

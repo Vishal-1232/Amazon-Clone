@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:amazon_clone/constants/error_handling.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/constants/utils.dart';
+import 'package:amazon_clone/features/cart/services/cart_services.dart';
 import 'package:amazon_clone/models/product.dart';
 import 'package:amazon_clone/models/user.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
@@ -66,7 +67,10 @@ class AddressServices {
       httpErrorHandle(
         response: res,
         context: context,
-        onSuccess: () {
+        onSuccess: () async{
+          if(userProvider.coupon != null){
+            await CartServices().applyCoupon(context: context, couponCode: userProvider.coupon?.couponCode??"", onlyCouponCheck: false);
+          }
           showSnackBar(context, 'Your order has been placed!');
           User user = userProvider.user.copyWith(
             cart: [],

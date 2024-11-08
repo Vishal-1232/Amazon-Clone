@@ -1,3 +1,4 @@
+import 'package:amazon_clone/constants/utils.dart';
 import 'package:amazon_clone/features/cart/services/cart_services.dart';
 import 'package:amazon_clone/features/product_details/services/product_details_services.dart';
 import 'package:amazon_clone/models/product.dart';
@@ -35,12 +36,20 @@ class _CartProductState extends State<CartProduct> {
     );
   }
 
+  void saveForLater(Product product){
+    productDetailsServices.moveToWishlist(context: context, product: product);
+  }
+
   @override
   Widget build(BuildContext context) {
     final productCart = context.watch<UserProvider>().user.cart[widget.index];
     final product = Product.fromMap(productCart['product']);
     final quantity = productCart['quantity'];
+    final isWishlistedProduct = productCart['isWishlisted'];
 
+    if(isWishlistedProduct){
+      return const SizedBox(height: 0,width: 0,);
+    }
     return Column(
       children: [
         Container(
@@ -56,6 +65,7 @@ class _CartProductState extends State<CartProduct> {
                 width: 135,
               ),
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
                     width: 235,
@@ -72,7 +82,7 @@ class _CartProductState extends State<CartProduct> {
                     width: 235,
                     padding: const EdgeInsets.only(left: 10, top: 5),
                     child: Text(
-                      '\$${product.price}',
+                      '₹${formatNumber(product.price)}',
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -94,6 +104,22 @@ class _CartProductState extends State<CartProduct> {
                         color: Colors.teal,
                       ),
                       maxLines: 2,
+                    ),
+                  ),
+                  const SizedBox(height: 10,),
+                  InkWell(
+                    onTap:()=> saveForLater(product),
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: Colors.black45,width: 1)
+                      ),
+                      child: const Center(
+                        child: Text(
+                          'Save for later',
+                        ),
+                      ),
                     ),
                   ),
                 ],

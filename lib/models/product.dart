@@ -4,6 +4,7 @@ import 'package:amazon_clone/models/rating.dart';
 
 class Product {
   final String name;
+  final String brand;
   final String description;
   final double quantity;
   final List<String> images;
@@ -13,6 +14,7 @@ class Product {
   final List<Rating>? rating;
   Product({
     required this.name,
+    required this.brand,
     required this.description,
     required this.quantity,
     required this.images,
@@ -25,6 +27,7 @@ class Product {
   Map<String, dynamic> toMap() {
     return {
       'name': name,
+      'brand':brand,
       'description': description,
       'quantity': quantity,
       'images': images,
@@ -51,6 +54,7 @@ class Product {
               ),
             )
           : null,
+      brand: map['brand']??'',
     );
   }
 

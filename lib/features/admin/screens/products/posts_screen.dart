@@ -1,6 +1,7 @@
 import 'package:amazon_clone/common/widgets/loader.dart';
 import 'package:amazon_clone/features/account/widgets/single_product.dart';
-import 'package:amazon_clone/features/admin/screens/add_product_screen.dart';
+import 'package:amazon_clone/features/admin/screens/products/add_product_screen.dart';
+import 'package:amazon_clone/features/admin/screens/category/manage_category_screen.dart';
 import 'package:amazon_clone/features/admin/services/admin_services.dart';
 import 'package:amazon_clone/models/product.dart';
 import 'package:flutter/material.dart';
@@ -84,9 +85,9 @@ class _PostsScreenState extends State<PostsScreen> {
               },
             ),
             floatingActionButton: FloatingActionButton(
-              child: const Icon(Icons.add),
               onPressed: navigateToAddProduct,
               tooltip: 'Add a Product',
+              child: const Icon(Icons.add),
             ),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerFloat,

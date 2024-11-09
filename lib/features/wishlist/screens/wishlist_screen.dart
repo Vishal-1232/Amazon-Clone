@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../constants/global_variables.dart';
 import '../../../providers/user_provider.dart';
-import '../../../search/screens/search_screen.dart';
+import '../../search/screens/search_screen.dart';
 import '../widgets/wishlist_product.dart';
 class WishlistScreen extends StatefulWidget {
   static const String routeName = '/wishlist-screen';

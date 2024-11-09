@@ -1,13 +1,16 @@
 import 'package:amazon_clone/common/widgets/custom_button.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:amazon_clone/constants/utils.dart';
 import 'package:amazon_clone/features/address/screens/address_screen.dart';
 import 'package:amazon_clone/features/cart/widgets/cart_product.dart';
 import 'package:amazon_clone/features/cart/widgets/cart_subtotal.dart';
 import 'package:amazon_clone/features/home/widgets/address_box.dart';
+import 'package:amazon_clone/models/user.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
-import 'package:amazon_clone/search/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../search/screens/search_screen.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -22,6 +25,10 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   void navigateToAddress(double sum) {
+    if(getCartItemsCount(context.read<UserProvider>().user)==0){
+      showSnackBar(context, "Please add items in cart to proceed !!");
+      return;
+    }
     Navigator.pushNamed(
       context,
       AddressScreen.routeName,
@@ -113,7 +120,7 @@ class _CartScreenState extends State<CartScreen> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: CustomButton(
-                text: 'Proceed to Buy (${userProvider.user.cart.length} items)',
+                text: 'Proceed to Buy (${getCartItemsCount(userProvider.user)} items)',
                 onTap: () => navigateToAddress(userProvider.cartTotalAmount),
                 color: Colors.yellow[600],
               ),
@@ -138,5 +145,17 @@ class _CartScreenState extends State<CartScreen> {
         ),
       ),
     );
+  }
+  
+  int getCartItemsCount(User user){
+    int items = 0;
+    for(int i = 0; i < user.cart.length; i++){
+      if(user.cart[i]['isWishlisted']){
+        continue;
+      }
+      items++;
+    }
+
+    return items;
   }
 }

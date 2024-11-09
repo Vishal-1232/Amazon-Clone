@@ -5,6 +5,8 @@ import 'package:amazon_clone/common/widgets/bottom_bar.dart';
 import 'package:amazon_clone/constants/error_handling.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/constants/utils.dart';
+import 'package:amazon_clone/features/admin/screens/admin_screen.dart';
+import 'package:amazon_clone/features/splash_screen/services/splash_services.dart';
 import 'package:amazon_clone/models/user.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,15 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
+  // redirect user based on his role
+  static redirectUser(BuildContext context, String userType){
+    if(userType=='user'){
+      Navigator.pushReplacementNamed(context, BottomBar.routeName);
+    }else if(userType=='admin'){
+      Navigator.pushReplacementNamed(context, AdminScreen.routeName);
+    }
+  }
+
   // sign-up User
   signUpUser(
       {required BuildContext context,
@@ -42,7 +53,6 @@ class AuthService {
             showSnackBar(
                 context, "Account created! Login with same credentials!");
           });
-      print(res.body);
     } catch (e) {
       showSnackBar(context, e.toString());
     }
@@ -64,13 +74,13 @@ class AuthService {
           context: context,
           onSuccess: () async {
             SharedPreferences prefs = await SharedPreferences.getInstance();
-            Provider.of<UserProvider>(context, listen: false).setUser(res.body);
             await prefs.setString(
                 "x-auth-token", jsonDecode(res.body)['token']);
-            Navigator.pushNamedAndRemoveUntil(
-                context, BottomBar.routeName, (route) => false);
+
+            final userProvider = Provider.of<UserProvider>(context,listen: false);
+            userProvider.setUser(res.body);
+            redirectUser(context, userProvider.user.type);
           });
-      print(res.body);
     } catch (e) {
       showSnackBar(context, e.toString());
     }

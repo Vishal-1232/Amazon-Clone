@@ -5,10 +5,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProductPaginationProvider extends PaginationProvider<Product> {
-  ProductPaginationProvider({required String categoryId, required BuildContext context})
+  ProductPaginationProvider({String categoryId='',String productName='', required BuildContext context})
       : super(
     fetchItems: (page) => HomeServices().fetchCategoryProducts(
       categoryId: categoryId,
+      productName: productName,
       page: page,
       context: context,
     ),

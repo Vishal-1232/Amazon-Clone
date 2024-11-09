@@ -4,10 +4,11 @@ import 'package:amazon_clone/constants/utils.dart';
 import 'package:amazon_clone/features/admin/services/admin_services.dart';
 import 'package:amazon_clone/models/order.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
-import 'package:amazon_clone/search/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+
+import '../../search/screens/search_screen.dart';
 
 class OrderDetailScreen extends StatefulWidget {
   static const String routeName = '/order-details';

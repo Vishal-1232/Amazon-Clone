@@ -14,7 +14,7 @@ const {Product} = require("../models/product");
 
 productRouter.get("/api/v1/products",auth,async (req,res)=>{
     try{
-        const {category,brand,sort,select} = req.query;
+        const {category,brand,sort,select,name} = req.query;
         const queryObject = {};
         
         if(category){
@@ -23,6 +23,9 @@ productRouter.get("/api/v1/products",auth,async (req,res)=>{
         }
         if(brand){
             queryObject.brand = brand;
+        }
+        if(name){
+            queryObject.name = new RegExp(name,"i"); // Case-insensitive match for product name
         }
         let apiData = Product.find(queryObject);
         if(sort){
@@ -50,16 +53,6 @@ productRouter.get("/api/v1/products",auth,async (req,res)=>{
         res.status(500).json({error:e.message});
     }
 });
-
-// api to search product
-productRouter.get("/api/products/search/:name",auth,async (req,res)=>{
-    try{
-        const products = await Product.find({name: {$regex: req.params.name, $options: "i"}});
-        res.json(products);
-    }catch(e){
-        res.status(500).json({error:e.message});
-    }
-})
 
 // api to rate a product
 productRouter.post("/api/rate-product",auth,async (req,res)=>{

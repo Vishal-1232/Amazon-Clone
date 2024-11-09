@@ -24,11 +24,7 @@ class SplashServices {
       final user = Provider.of<UserProvider>(context,listen: false).user;
 
       if(user.token.isNotEmpty){
-        if(user.type=='user'){
-          Navigator.pushReplacementNamed(context, BottomBar.routeName);
-        }else if(user.type=='admin'){
-          Navigator.pushReplacementNamed(context, AdminScreen.routeName);
-        }
+        AuthService.redirectUser(context, user.type);
       }else{
         Navigator.pushReplacementNamed(context, AuthScreen.routeName);
       }

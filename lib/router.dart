@@ -14,8 +14,9 @@ import 'package:amazon_clone/features/product_details/screens/product_details_sc
 import 'package:amazon_clone/features/wishlist/screens/wishlist_screen.dart';
 import 'package:amazon_clone/models/order.dart';
 import 'package:amazon_clone/models/product.dart';
-import 'package:amazon_clone/search/screens/search_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'features/search/screens/search_screen.dart';
 
 Route<dynamic> generateRoute(RouteSettings routeSettings) {
   switch (routeSettings.name) {

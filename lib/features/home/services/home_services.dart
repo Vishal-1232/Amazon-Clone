@@ -46,15 +46,16 @@ class HomeServices {
 
   Future<List<Product>> fetchCategoryProducts({
     required BuildContext context,
-    required String categoryId,
     required int page,
+    String categoryId = "",
+    String productName = "",
     int limit = 5,
   }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     List<Product> productList = [];
     try {
       http.Response res = await http
-          .get(Uri.parse('$baseUrl/api/v1/products?category=$categoryId&page=$page&limit=$limit'), headers: {
+          .get(Uri.parse('$baseUrl/api/v1/products?category=$categoryId&name=$productName&page=$page&limit=$limit'), headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         'x-auth-token': userProvider.user.token,
       });

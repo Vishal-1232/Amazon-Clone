@@ -92,6 +92,10 @@ userRouter.post("/api/order", auth, async (req, res) => {
     let products = [];
 
     for (let i = 0; i < cart.length; i++) {
+      if(cart[i].isWishlisted){
+        continue;
+      }
+
       let product = await Product.findById(cart[i].product._id);
       if (product.quantity >= cart[i].quantity) {
         product.quantity -= cart[i].quantity;
@@ -102,6 +106,10 @@ userRouter.post("/api/order", auth, async (req, res) => {
           .status(400)
           .json({ msg: `${product.name} is out of stock!` });
       }
+    }
+
+    if(products.length==0){
+      return res.status(400).json({msg: 'Please add items in your cart!!'});
     }
 
     let user = await User.findById(req.user);

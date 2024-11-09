@@ -1,4 +1,5 @@
 import 'package:amazon_clone/common/widgets/stars.dart';
+import 'package:amazon_clone/constants/utils.dart';
 import 'package:amazon_clone/models/product.dart';
 import 'package:flutter/material.dart';
 
@@ -57,7 +58,7 @@ class SearchedProduct extends StatelessWidget {
                     width: 235,
                     padding: const EdgeInsets.only(left: 10, top: 5),
                     child: Text(
-                      '\$${product.price}',
+                      '₹${formatNumber(product.price)}',
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -73,10 +74,10 @@ class SearchedProduct extends StatelessWidget {
                   Container(
                     width: 235,
                     padding: const EdgeInsets.only(left: 10, top: 5),
-                    child: const Text(
-                      'In Stock',
+                    child: Text(
+                      product.stockStatus??"",
                       style: TextStyle(
-                        color: Colors.teal,
+                        color: product.stockStatus?.toLowerCase()=='in stock'?Colors.teal:Colors.red,
                       ),
                       maxLines: 2,
                     ),

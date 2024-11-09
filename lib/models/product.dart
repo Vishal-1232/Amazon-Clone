@@ -12,6 +12,7 @@ class Product {
   final double price;
   final String? id;
   final List<Rating>? rating;
+  String? stockStatus;
   Product({
     required this.name,
     required this.brand,
@@ -22,6 +23,7 @@ class Product {
     required this.price,
     this.id,
     this.rating,
+    this.stockStatus,
   });
 
   Map<String, dynamic> toMap() {
@@ -55,6 +57,7 @@ class Product {
             )
           : null,
       brand: map['brand']??'',
+      stockStatus: map['stockStatus']??''
     );
   }
 

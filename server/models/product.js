@@ -38,5 +38,12 @@ const productSchema = mongoose.Schema({
   ratings: [ratingSchema],
 });
 
+// Virtual field for stock status based on quantity
+productSchema.virtual("stockStatus").get(function () {
+  return this.quantity > 0 ? "In stock" : "Out of stock";
+});
+
+productSchema.set('toJSON', { getters: true, virtuals: true });
+
 const Product = mongoose.model("Product", productSchema);
 module.exports = { Product, productSchema };

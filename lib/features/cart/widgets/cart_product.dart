@@ -98,10 +98,10 @@ class _CartProductState extends State<CartProduct> {
                   Container(
                     width: 235,
                     padding: const EdgeInsets.only(left: 10, top: 5),
-                    child: const Text(
-                      'In Stock',
+                    child: Text(
+                      product.stockStatus??"",
                       style: TextStyle(
-                        color: Colors.teal,
+                        color: product.stockStatus?.toLowerCase()=='in stock'?Colors.teal:Colors.red,
                       ),
                       maxLines: 2,
                     ),

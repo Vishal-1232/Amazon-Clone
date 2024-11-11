@@ -64,6 +64,12 @@ String formatNumber(double number){
   return formattedNumber;
 }
 
+String formatDateTime(int dateTime){
+  return DateFormat("dd MMM, yyyy").format(
+    DateTime.fromMillisecondsSinceEpoch(dateTime),
+  );
+}
+
 selectDate(BuildContext context) async {
   DateTime? picked = await showDatePicker(
     context: context,

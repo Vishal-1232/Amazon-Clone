@@ -27,11 +27,9 @@ userRouter.post("/api/add-to-cart", auth, async (req, res) => {
 
       if (isProductFound) {
         if (alreadyInWishlist) {
-          return res
-            .status(400)
-            .json({
-              msg: "Product is present in your wishlist, so cant be added into your cart!!",
-            });
+          return res.status(400).json({
+            msg: "Product is present in your wishlist, so cant be added into your cart!!",
+          });
         }
 
         let producttt = user.cart.find((productt) =>
@@ -92,7 +90,7 @@ userRouter.post("/api/order", auth, async (req, res) => {
     let products = [];
 
     for (let i = 0; i < cart.length; i++) {
-      if(cart[i].isWishlisted){
+      if (cart[i].isWishlisted) {
         continue;
       }
 
@@ -108,8 +106,8 @@ userRouter.post("/api/order", auth, async (req, res) => {
       }
     }
 
-    if(products.length==0){
-      return res.status(400).json({msg: 'Please add items in your cart!!'});
+    if (products.length == 0) {
+      return res.status(400).json({ msg: "Please add items in your cart!!" });
     }
 
     let user = await User.findById(req.user);
@@ -132,7 +130,23 @@ userRouter.post("/api/order", auth, async (req, res) => {
 
 userRouter.get("/api/orders/me", auth, async (req, res) => {
   try {
-    const orders = await Order.find({ userId: req.user });
+    const { name } = req.query;
+    let orders = await Order.find({ userId: req.user });
+    if (name) {
+      const regex = new RegExp(name, "i"); // Case-insensitive regex for product name
+      orders = orders.filter((order) =>
+        order.products.some((val) => regex.test(val.product.name))
+      );
+
+      // Get products from filtered orders
+      // const products = orders.flatMap((order) =>
+      //   order.products
+      //     .filter((val) => regex.test(val.product.name))
+      //     .map((val) => val.product)
+      // );
+
+      // return res.json(products);
+    }
     res.json(orders);
   } catch (e) {
     res.status(500).json({ error: e.message });

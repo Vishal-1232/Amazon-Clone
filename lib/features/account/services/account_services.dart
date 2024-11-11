@@ -13,12 +13,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AccountServices {
   Future<List<Order>> fetchMyOrders({
     required BuildContext context,
+    String productName='',
   }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     List<Order> orderList = [];
     try {
       http.Response res =
-          await http.get(Uri.parse('$baseUrl/api/orders/me'), headers: {
+          await http.get(Uri.parse('$baseUrl/api/orders/me?name=$productName'), headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         'x-auth-token': userProvider.user.token,
       });

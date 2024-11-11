@@ -1,8 +1,9 @@
 import 'package:amazon_clone/common/widgets/loader.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:amazon_clone/features/account/screens/my_orders_screen.dart';
 import 'package:amazon_clone/features/account/services/account_services.dart';
 import 'package:amazon_clone/features/account/widgets/single_product.dart';
-import 'package:amazon_clone/features/order_details/screens/order_details.dart';
+import 'package:amazon_clone/features/account/screens/order_details.dart';
 import 'package:amazon_clone/models/order.dart';
 import 'package:flutter/material.dart';
 
@@ -49,14 +50,19 @@ class _OrdersState extends State<Orders> {
                       ),
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.only(
-                      right: 15,
-                    ),
-                    child: Text(
-                      'See all',
-                      style: TextStyle(
-                        color: GlobalVariables.selectedNavBarColor,
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, MyOrdersScreen.routeName,arguments: orders);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.only(
+                        right: 15,
+                      ),
+                      child: Text(
+                        'See all',
+                        style: TextStyle(
+                          color: GlobalVariables.selectedNavBarColor,
+                        ),
                       ),
                     ),
                   ),

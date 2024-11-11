@@ -1,3 +1,4 @@
+import 'package:amazon_clone/constants/utils.dart';
 import 'package:amazon_clone/features/account/services/account_services.dart';
 import 'package:amazon_clone/features/account/widgets/account_buttons.dart';
 import 'package:amazon_clone/features/wishlist/screens/wishlist_screen.dart';
@@ -14,11 +15,15 @@ class TopButtons extends StatelessWidget {
           children: [
             AccountButton(
               text: 'Your Account',
-              onTap: () {},
+              onTap: () {
+                showSnackBar(context, "Feature will be available in next version");
+              },
             ),
             AccountButton(
               text: 'Turn Seller',
-              onTap: () {},
+              onTap: () {
+                showSnackBar(context, "Feature will be available in next version");
+              },
             ),
           ],
         ),

@@ -1,4 +1,5 @@
 import 'package:amazon_clone/common/widgets/bottom_bar.dart';
+import 'package:amazon_clone/features/account/screens/my_orders_screen.dart';
 import 'package:amazon_clone/features/address/screens/address_screen.dart';
 import 'package:amazon_clone/features/admin/screens/coupons/add_coupon_screen.dart';
 import 'package:amazon_clone/features/admin/screens/coupons/manage_coupons_screen.dart';
@@ -9,7 +10,7 @@ import 'package:amazon_clone/features/admin/screens/category/manage_category_scr
 import 'package:amazon_clone/features/auth/screens/auth_screen.dart';
 import 'package:amazon_clone/features/home/screens/category_deals_screen.dart';
 import 'package:amazon_clone/features/home/screens/home_screen.dart';
-import 'package:amazon_clone/features/order_details/screens/order_details.dart';
+import 'package:amazon_clone/features/account/screens/order_details.dart';
 import 'package:amazon_clone/features/product_details/screens/product_details_screen.dart';
 import 'package:amazon_clone/features/wishlist/screens/wishlist_screen.dart';
 import 'package:amazon_clone/models/order.dart';
@@ -82,6 +83,12 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         builder: (_) => OrderDetailScreen(
           order: order,
         ),
+      );
+    case MyOrdersScreen.routeName:
+      List<Order>myOrders = routeSettings.arguments as List<Order>;
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => MyOrdersScreen(myOrders: myOrders,),
       );
     case AdminScreen.routeName:
       return MaterialPageRoute(

@@ -79,11 +79,13 @@ adminRouter.get("/admin/get-orders", admin, async (req, res) => {
         }
       }
       // CATEGORY WISE ORDER FETCHING
-      let mobileEarnings = await fetchCategoryWiseProduct("Mobiles");
-      let essentialEarnings = await fetchCategoryWiseProduct("Essentials");
-      let applianceEarnings = await fetchCategoryWiseProduct("Appliances");
-      let booksEarnings = await fetchCategoryWiseProduct("Books");
-      let fashionEarnings = await fetchCategoryWiseProduct("Fashion");
+      let mobileEarnings = await fetchCategoryWiseProduct("66f190aa03760f4a1a99fac1");
+      let essentialEarnings = await fetchCategoryWiseProduct("66f1902c03760f4a1a99fab9");
+      let applianceEarnings = await fetchCategoryWiseProduct("66f18fd803760f4a1a99fab7");
+      let booksEarnings = await fetchCategoryWiseProduct("66f1904d03760f4a1a99fabb");
+      let fashionEarnings = await fetchCategoryWiseProduct("66f1908a03760f4a1a99fabf");
+      let electronicsEarnings = await fetchCategoryWiseProduct("66f1906f03760f4a1a99fabd");
+      
   
       let earnings = {
         totalEarnings,
@@ -92,8 +94,9 @@ adminRouter.get("/admin/get-orders", admin, async (req, res) => {
         applianceEarnings,
         booksEarnings,
         fashionEarnings,
+        electronicsEarnings,
       };
-  
+      console.log(earnings);
       res.json(earnings);
     } catch (e) {
       res.status(500).json({ error: e.message });

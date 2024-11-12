@@ -7,6 +7,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../features/account/services/account_services.dart';
+
 void showSnackBar(BuildContext context, String text) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
@@ -84,4 +86,36 @@ selectDate(BuildContext context) async {
   //   });
   // }
 }
+
+void showLogoutConfirmationDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Logout'),
+        content: const Text('Are you sure you want to log out?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the dialog
+            },
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the dialog
+              // Add your logout logic here, e.g., clearing user data or navigating to login screen
+              AccountServices().logOut(context);
+            },
+            child: const Text(
+              'Logout',
+              style: TextStyle(color: Colors.red), // Optional: make the logout text red
+            ),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 

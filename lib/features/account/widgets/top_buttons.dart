@@ -32,7 +32,7 @@ class TopButtons extends StatelessWidget {
           children: [
             AccountButton(
               text: 'Log Out',
-              onTap: () => AccountServices().logOut(context),
+              onTap: () => showLogoutConfirmationDialog(context),
             ),
             AccountButton(
               text: 'Your Wish List',

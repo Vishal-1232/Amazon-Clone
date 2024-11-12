@@ -1,7 +1,8 @@
-import 'package:amazon_clone/constants/global_variables.dart';
-import 'package:amazon_clone/features/home/screens/category_deals_screen.dart';
-import 'package:amazon_clone/features/home/services/home_services.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:amazon_clone/features/home/screens/category_deals_screen.dart';
+
+import '../../../providers/category_provider.dart';
 
 class TopCategories extends StatelessWidget {
   const TopCategories({Key? key}) : super(key: key);
@@ -18,48 +19,52 @@ class TopCategories extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 60,
-      child: FutureBuilder(future: HomeServices().fetchCategories(context: context), builder: (context, snapshot) {
-        if(snapshot.connectionState==ConnectionState.waiting){
-          return const CircularProgressIndicator();
-        }
-        return ListView.builder(
-          itemCount: snapshot.data?.length,
-          scrollDirection: Axis.horizontal,
-          itemExtent: 75,
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: () => navigateToCategoryPage(
-                context,
-                snapshot.data![index].id!,
-                snapshot.data![index].name,
-              ),
-              child: Column(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: Image.network(
-                        snapshot.data![index].image,
-                        fit: BoxFit.cover,
-                        height: 40,
-                        width: 40,
+      child: Consumer<CategoryProvider>(
+        builder: (context, provider, child) {
+          if (provider.isLoading) {
+            return const CircularProgressIndicator();
+          }
+
+          final categories = provider.categories;
+          return ListView.builder(
+            itemCount: categories?.length ?? 0,
+            scrollDirection: Axis.horizontal,
+            itemExtent: 75,
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                onTap: () => navigateToCategoryPage(
+                  context,
+                  categories[index].id!,
+                  categories[index].name,
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: Image.network(
+                          categories![index].image,
+                          fit: BoxFit.cover,
+                          height: 40,
+                          width: 40,
+                        ),
                       ),
                     ),
-                  ),
-                  Text(
-                    snapshot.data![index].name,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
+                    Text(
+                      categories[index].name,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          },
-        );
-      },),
+                  ],
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

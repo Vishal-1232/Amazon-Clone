@@ -3,7 +3,7 @@ import 'package:amazon_clone/features/product_details/screens/product_details_sc
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../providers/product_pagination_provider.dart';
+import '../../../providers/pagination_provider/product_pagination_provider.dart';
 import '../widgets/product_card.dart';
 
 class CategoryDealsScreen extends StatefulWidget {

@@ -1,8 +1,6 @@
-import 'package:amazon_clone/common/widgets/bottom_bar.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
-import 'package:amazon_clone/features/admin/screens/admin_screen.dart';
-import 'package:amazon_clone/features/auth/screens/auth_screen.dart';
 import 'package:amazon_clone/features/splash_screen/screens/splash_screen.dart';
+import 'package:amazon_clone/providers/category_provider.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:amazon_clone/router.dart';
 import 'package:device_preview/device_preview.dart';
@@ -14,6 +12,9 @@ void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(
       create: (context) => UserProvider(),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => CategoryProvider(context),
     )
   ], child: DevicePreview(enabled: !kReleaseMode,builder:(context)=> const MyApp())));
 }

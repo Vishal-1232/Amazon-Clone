@@ -14,6 +14,7 @@ const productRouter = require('./routes/product');
 const userRouter = require('./routes/user');
 const categoryRouter = require("./routes/category");
 const couponRouter = require("./routes/coupon");
+const limiter = require('./middlewares/rate.limiter');
 
 
 // initialization
@@ -28,6 +29,7 @@ const DB = "mongodb+srv://Vishal:VishalDB@cluster0.esv5nyf.mongodb.net/?retryWri
 app.use(express.json()); // It parses the incoming payload request into JSON Format
 app.use(cors());
 //app.use(morgan('tiny',{stream:accessLogStream})); // For Logger
+app.use(limiter);
 app.use(authRouter);
 app.use(adminRouter);
 app.use(productRouter);

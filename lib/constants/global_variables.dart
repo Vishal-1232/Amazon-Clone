@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-String baseUrl = kReleaseMode?'https://amazon-clone-snowy-kappa.vercel.app':'http://192.168.1.4:8000';
+String baseUrl = kReleaseMode?'https://amazon-clone-snowy-kappa.vercel.app':'http://192.168.1.5:8000';
 //String baseUrl = 'http://192.168.1.6:8000';
 
 class GlobalVariables {
